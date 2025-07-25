@@ -20,6 +20,9 @@
       "launchUrl": "swagger"
     },
     "IIS Express": {
+      "applicationUrl": "http://localhost:55626/",
+      "sslPort": 44334,
+      "launchUrl": "swagger",
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
