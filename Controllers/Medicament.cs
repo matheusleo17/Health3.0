@@ -54,19 +54,29 @@ namespace Care3._0.Controllers
         }
         [HttpPost]
         [Route("Delete")]
-        public ActionResult DeleteMedicament(int id)
+        public ActionResult DeleteMedicament(int id, bool deleteFromBase)
         {
-            
-            var delete = _appDbContext.Medicaments.Where(m => m.Id == id);
 
-            if(delete != null)
+            var delete = _appDbContext.Medicaments.Where(m => m.Id == id).FirstOrDefault();
+
+            if(delete != null && deleteFromBase == false) // if para quando eu quiser manter os dados no banco, mas marcados como DELETADOS
             {
-                _appDbContext.Remove(delete);
+                delete.StateCode = 0;
+                delete.IsDeleted = 1;
+                delete.DeletedBy = "Admin";   
+                _appDbContext.Update(delete);
+                _appDbContext.SaveChanges();
                 return Ok(delete);
             }
-            else
+            else if (delete != null && deleteFromBase == true) // if para quando eu quiser excluir os dados para sempre da base
+            {
+                _appDbContext.Remove(delete);
+                _appDbContext.SaveChanges();
+                return Ok(delete);
+            } else
             {
                 return BadRequest("Erro ao deletar.");
+
             }
         }
 
