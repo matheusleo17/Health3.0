@@ -6,12 +6,11 @@ using System.Linq;
 
 namespace Care3._0.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class MedicamentController : ControllerBase
     {
         private readonly AppDBContext _appDbContext;
-        //private readonly Medicament _medicament;
         
         public MedicamentController(AppDBContext appDbContext)
         {
@@ -19,6 +18,7 @@ namespace Care3._0.Controllers
         }
 
         [HttpGet]
+        [Route("Search")]
         public ActionResult<List<Medicament>> GetMedicament()
         {
             var medicaments = _appDbContext.Medicaments.ToList();
@@ -26,17 +26,19 @@ namespace Care3._0.Controllers
         }
 
         [HttpPost]
+        [Route("Insert")]
+
         public ActionResult<Medicament> InsertMedicament(Medicament medicament)
         {
             _appDbContext.Add(medicament);
             _appDbContext.SaveChanges(); 
             return Ok(medicament);
         }
-        [HttpPost("{id}")]
+        [HttpPost]
+        [Route("Update")]
         public ActionResult <Medicament> UpdateMedicament(int id, string name)
         {
             var update = _appDbContext.Medicaments.FirstOrDefault(_ => _.Id == id);
-
             if (update != null)
             {
                 update.Name = name;
@@ -50,5 +52,23 @@ namespace Care3._0.Controllers
             }
             return Ok(update);
         }
+        [HttpPost]
+        [Route("Delete")]
+        public ActionResult DeleteMedicament(int id)
+        {
+            
+            var delete = _appDbContext.Medicaments.Where(m => m.Id == id);
+
+            if(delete != null)
+            {
+                _appDbContext.Remove(delete);
+                return Ok(delete);
+            }
+            else
+            {
+                return BadRequest("Erro ao deletar.");
+            }
+        }
+
     }
 }
