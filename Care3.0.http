@@ -1,4 +1,4 @@
-@Care3._0_HostAddress = http://localhost:5179
+@Care3._0_HostAddress = http://localhost:55626
 
 GET {{Care3._0_HostAddress}}/weatherforecast/
 Accept: application/json
