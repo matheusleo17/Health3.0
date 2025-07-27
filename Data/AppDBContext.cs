@@ -11,5 +11,6 @@ namespace Care3._0.Data
         }
 
         public DbSet<Medicament> Medicaments { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
