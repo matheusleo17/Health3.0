@@ -2,6 +2,7 @@
 using Care3._0.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Care3._0.Controllers
 {
@@ -10,9 +11,13 @@ namespace Care3._0.Controllers
     public class UserController : ControllerBase
     {
         private readonly AppDBContext _appDbContext;
-        public UserController(AppDBContext appDbContext)
+        private readonly IAuthService _authService;
+
+        public UserController(AppDBContext appDbContext, IAuthService authService)
         {
             _appDbContext = appDbContext;
+            _authService = authService;
+
         }
 
         [HttpPost]
@@ -47,7 +52,8 @@ namespace Care3._0.Controllers
 
             if (getUserLogin != null && senhaValida == true)
             {
-                return Ok("Login com sucesso");
+                var token = _authService.GenerateToken(getUserLogin.Email);
+                return Ok(new { token });
             } else {
                 return BadRequest("Dados de login invalidos");
 

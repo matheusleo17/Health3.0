@@ -1,5 +1,6 @@
 ﻿using Care3._0.Data;
 using Care3._0.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Care3._0.Controllers
 
         [HttpGet]
         [Route("Search")]
+        [Authorize]
         public ActionResult<List<Medicament>> GetMedicament()
         {
             var medicaments = _appDbContext.Medicaments.ToList();
@@ -27,6 +29,8 @@ namespace Care3._0.Controllers
 
         [HttpPost]
         [Route("Insert")]
+        [Authorize]
+
 
         public ActionResult<Medicament> InsertMedicament(Medicament medicament)
         {
@@ -36,6 +40,8 @@ namespace Care3._0.Controllers
         }
         [HttpPost]
         [Route("Update")]
+        [Authorize]
+
         public ActionResult <Medicament> UpdateMedicament(int id, string name)
         {
             var update = _appDbContext.Medicaments.FirstOrDefault(_ => _.Id == id);
@@ -54,6 +60,8 @@ namespace Care3._0.Controllers
         }
         [HttpPost]
         [Route("Delete")]
+        [Authorize]
+
         public ActionResult DeleteMedicament(int id, bool deleteFromBase)
         {
 
