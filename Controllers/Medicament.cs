@@ -67,7 +67,7 @@ namespace Care3._0.Controllers
 
             var delete = _appDbContext.Medicaments.Where(m => m.Id == id).FirstOrDefault();
 
-            if(delete != null && deleteFromBase == false) // if para quando eu quiser manter os dados no banco, mas marcados como DELETADOS
+            if(delete != null && deleteFromBase == false) 
             {
                 delete.StateCode = 0;
                 delete.IsDeleted = 1;
@@ -76,7 +76,7 @@ namespace Care3._0.Controllers
                 _appDbContext.SaveChanges();
                 return Ok(delete);
             }
-            else if (delete != null && deleteFromBase == true) // if para quando eu quiser excluir os dados para sempre da base
+            else if (delete != null && deleteFromBase == true) 
             {
                 _appDbContext.Remove(delete);
                 _appDbContext.SaveChanges();
